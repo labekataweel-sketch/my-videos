@@ -15,6 +15,7 @@ import {
   DropIcon,
   BandageIcon,
   FaceIcon,
+  HeartIcon,
   LeafIcon,
   LiftIcon,
   MoleculeIcon,
@@ -497,6 +498,7 @@ export const ProductScene: React.FC = () => {
 
 const benefits: { text: string; Icon: React.FC<{ size?: number }> }[] = [
   { text: "ترطيب", Icon: DropIcon },
+  { text: "تغذية", Icon: HeartIcon },
   { text: "ترميم", Icon: BandageIcon },
   { text: "تهدئة", Icon: LeafIcon },
   { text: "نضارة", Icon: SparkleIcon },
@@ -555,7 +557,7 @@ export const BenefitsScene: React.FC = () => {
       <AbsoluteFill
         style={{ padding: "140px 70px", gap: 34, justifyContent: "center" }}
       >
-        <Heading>5 فوائد في كريم واحد</Heading>
+        <Heading>6 فوائد في كريم واحد</Heading>
         <GoldRule delay={8} />
         <div
           style={{

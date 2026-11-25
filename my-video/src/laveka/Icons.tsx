@@ -133,3 +133,10 @@ export const PhoneIcon: React.FC<IconProps> = (p) => (
     <path d="M15 6h-5a3 3 0 0 0-3 3c0 18 14 32 32 32a3 3 0 0 0 3-3v-5l-9-4-4 4c-5-2-10-7-12-12l4-4z" />
   </Svg>
 );
+
+export const HeartIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M24 40C10 31 6 24 6 17a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 7-4 14-18 23z" />
+    <path d="M24 30v-8M20 26h8" />
+  </Svg>
+);
