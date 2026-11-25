@@ -341,7 +341,7 @@ export const BeforeAfterScene: React.FC = () => {
             opacity: title,
           }}
         >
-          الفرق من أول استخدام*
+          مع الاستخدام المنتظم*
           <br />
           <span style={{ fontSize: 56, color: colors.muted, fontWeight: 700 }}>
             بشرة مرتاحة، نضرة ومشرقة
