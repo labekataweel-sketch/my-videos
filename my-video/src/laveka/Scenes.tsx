@@ -13,15 +13,13 @@ import { fontFamily } from "../fonts";
 import {
   DotsIcon,
   DropIcon,
-  FaceIcon,
+  BandageIcon,
   LeafIcon,
-  MoleculeIcon,
+  LiftIcon,
   MoonIcon,
   PoreIcon,
-  ShieldIcon,
   SparkleIcon,
   SunIcon,
-  WavesIcon,
 } from "./Icons";
 import { colors, goldGradient } from "./theme";
 
@@ -131,10 +129,7 @@ const Logo: React.FC<{ width: number; style?: React.CSSProperties }> = ({
 // ---------------------------------------------------------------- 1 intro
 
 export const IntroScene: React.FC = () => {
-  const frame = useCurrentFrame();
   const logo = useEnter(5);
-  const words = ["ترطيب", "تجديد", "حماية"];
-  const shine = interpolate(frame, [20, 70], [-20, 120], clamp);
   return (
     <AbsoluteFill
       style={{
@@ -145,44 +140,21 @@ export const IntroScene: React.FC = () => {
         fontFamily,
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          overflow: "hidden",
-          opacity: logo,
-          transform: `scale(${0.85 + logo * 0.15})`,
-          filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.35))",
-        }}
-      >
+      <div style={{ opacity: logo, transform: `scale(${0.9 + logo * 0.1})` }}>
         <Logo width={820} />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            WebkitMaskImage: `url(${staticFile("laveka/logo-official.png")})`,
-            maskImage: `url(${staticFile("laveka/logo-official.png")})`,
-            WebkitMaskSize: "100% 100%",
-            maskSize: "100% 100%",
-            background: `linear-gradient(100deg, transparent ${shine - 15}%, rgba(255,250,225,0.85) ${shine}%, transparent ${shine + 15}%)`,
-          }}
-        />
       </div>
       <GoldRule delay={20} width={420} />
       <div
         style={{
           ...rtl,
-          display: "flex",
-          gap: 48,
-          fontSize: 76,
+          fontSize: 64,
           fontWeight: 700,
           color: colors.cream,
+          textAlign: "center",
         }}
       >
-        {words.map((w, i) => (
-          <Word key={w} delay={30 + i * 10}>
-            {w}
-          </Word>
-        ))}
+        <Word delay={30}>كريم واحد</Word>{" "}
+        <Word delay={40}>لكل احتياجات بشرتك</Word>
       </div>
     </AbsoluteFill>
   );
@@ -205,6 +177,231 @@ const Word: React.FC<{ children: React.ReactNode; delay: number }> = ({
     </span>
   );
 };
+
+// ---------------------------------------------------------------- problem
+
+// Illustrative only: the same photo shown dull ("before") and as-is ("after").
+const BEFORE_FILTER = "saturate(0.45) brightness(0.86) contrast(0.88) sepia(0.28)";
+
+const FacePhoto: React.FC<{ filter?: string; zoom?: number }> = ({
+  filter,
+  zoom = 1,
+}) => (
+  <Img
+    src={staticFile("laveka/face-wide.jpg")}
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      objectPosition: "45% 50%",
+      filter,
+      transform: `scale(${zoom})`,
+    }}
+  />
+);
+
+const Disclaimer: React.FC = () => (
+  <div
+    style={{
+      ...rtl,
+      position: "absolute",
+      left: 30,
+      bottom: 24,
+      fontSize: 30,
+      fontWeight: 600,
+      color: "rgba(255,255,255,0.9)",
+      background: "rgba(0,0,0,0.35)",
+      padding: "4px 18px 8px",
+      borderRadius: 14,
+    }}
+  >
+    صورة توضيحية
+  </div>
+);
+
+export const ProblemScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const zoom = interpolate(frame, [0, durationInFrames], [1.0, 1.08]);
+  const q = useEnter(10);
+  const problems = ["جفاف", "بهتان", "احمرار", "خطوط دقيقة"];
+  return (
+    <AbsoluteFill style={{ fontFamily, backgroundColor: "#2b2b2b" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          height: 1150,
+          overflow: "hidden",
+        }}
+      >
+        <FacePhoto filter={BEFORE_FILTER} zoom={zoom} />
+        <Disclaimer />
+      </div>
+      <div
+        style={{
+          ...rtl,
+          position: "absolute",
+          top: 1150,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: "flex",
+          flexDirection: "column",
+          background: "#3a3d3d",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 36,
+          paddingBottom: 40,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 96,
+            fontWeight: 800,
+            color: colors.white,
+            opacity: q,
+            transform: `translateY(${(1 - q) * 30}px)`,
+          }}
+        >
+          بشرتك متعبة؟
+        </div>
+        <div style={{ display: "flex", gap: 18, flexWrap: "wrap", justifyContent: "center", padding: "0 50px" }}>
+          {problems.map((t, i) => (
+            <Chip key={t} delay={24 + i * 8}>
+              {t}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const Chip: React.FC<{ children: React.ReactNode; delay: number }> = ({
+  children,
+  delay,
+}) => {
+  const p = useEnter(delay, 14);
+  return (
+    <div
+      style={{
+        fontSize: 48,
+        fontWeight: 700,
+        color: "#f2dede",
+        border: "3px solid rgba(242,222,222,0.6)",
+        borderRadius: 60,
+        padding: "4px 36px 12px",
+        transform: `scale(${p})`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------- before / after
+
+export const BeforeAfterScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  // Divider sweeps right→left, revealing the "after" image.
+  const reveal = interpolate(frame, [25, 85], [0, 100], {
+    ...clamp,
+    easing: (t) => t * t * (3 - 2 * t),
+  });
+  const title = useEnter(0);
+  const after = useEnter(80);
+  return (
+    <AbsoluteFill style={{ fontFamily }}>
+      <CreamBackground />
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 140, gap: 20 }}>
+        <div
+          style={{
+            ...rtl,
+            fontSize: 84,
+            fontWeight: 800,
+            color: colors.tealDeep,
+            textAlign: "center",
+            lineHeight: 1.25,
+            opacity: title,
+          }}
+        >
+          الفرق من أول استخدام*
+          <br />
+          <span style={{ fontSize: 56, color: colors.muted, fontWeight: 700 }}>
+            بشرة مرتاحة، نضرة ومشرقة
+          </span>
+        </div>
+        <div
+          style={{
+            position: "relative",
+            marginTop: 40,
+            width: 960,
+            height: 1150,
+            borderRadius: 48,
+            overflow: "hidden",
+            boxShadow: "0 30px 70px rgba(12,79,77,0.25)",
+          }}
+        >
+          <AbsoluteFill>
+            <FacePhoto />
+          </AbsoluteFill>
+          <AbsoluteFill style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}>
+            <FacePhoto filter={BEFORE_FILTER} />
+          </AbsoluteFill>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: `calc(${reveal}% - 4px)`,
+              width: 8,
+              background: goldGradient,
+              opacity: reveal > 0 && reveal < 100 ? 1 : 0,
+            }}
+          />
+          <Tag side="right" text="قبل" opacity={1 - after} />
+          <Tag side="left" text="بعد" opacity={interpolate(reveal, [40, 70], [0, 1], clamp)} />
+          <Disclaimer />
+        </div>
+        <div
+          style={{
+            ...rtl,
+            fontSize: 30,
+            color: colors.muted,
+            marginTop: 10,
+          }}
+        >
+          *النتائج تختلف من شخص لآخر
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+const Tag: React.FC<{ side: "left" | "right"; text: string; opacity: number }> = ({
+  side,
+  text,
+  opacity,
+}) => (
+  <div
+    style={{
+      position: "absolute",
+      top: 30,
+      [side]: 30,
+      fontFamily,
+      fontSize: 52,
+      fontWeight: 800,
+      color: side === "left" ? colors.tealDeep : colors.white,
+      background: side === "left" ? colors.goldLight : "rgba(40,40,40,0.7)",
+      padding: "2px 34px 10px",
+      borderRadius: 40,
+      opacity,
+    }}
+  >
+    {text}
+  </div>
+);
 
 // ---------------------------------------------------------------- 2 product
 
@@ -286,40 +483,40 @@ export const ProductScene: React.FC = () => {
 // ---------------------------------------------------------------- 3 benefits
 
 const benefits: { text: string; Icon: React.FC<{ size?: number }> }[] = [
-  { text: "ترطيب عميق يدوم طويلاً", Icon: DropIcon },
-  { text: "يهدئ الاحمرار والتهيج", Icon: SparkleIcon },
-  { text: "يعزز حاجز البشرة ويحميها", Icon: ShieldIcon },
-  { text: "يوحد لون البشرة ويمنحها إشراقاً طبيعياً", Icon: FaceIcon },
-  { text: "يقلل الخطوط الدقيقة وعلامات التعب", Icon: WavesIcon },
-  { text: "يحفز تجديد الخلايا ويعزز إنتاج الكولاجين", Icon: MoleculeIcon },
+  { text: "ترطيب", Icon: DropIcon },
+  { text: "تفتيح", Icon: SunIcon },
+  { text: "ترميم", Icon: BandageIcon },
+  { text: "تهدئة", Icon: LeafIcon },
+  { text: "نضارة", Icon: SparkleIcon },
+  { text: "شد", Icon: LiftIcon },
 ];
 
-const BenefitRow: React.FC<{
+const BenefitTile: React.FC<{
   text: string;
   Icon: React.FC<{ size?: number }>;
   delay: number;
 }> = ({ text, Icon, delay }) => {
-  const p = useEnter(delay);
+  const p = useEnter(delay, 13);
   return (
     <div
       style={{
-        ...rtl,
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        gap: 34,
-        background: "rgba(255,255,255,0.92)",
-        borderRadius: 120,
-        padding: "22px 26px",
+        justifyContent: "center",
+        gap: 20,
+        height: 300,
+        background: "rgba(255,255,255,0.94)",
+        borderRadius: 44,
         boxShadow: "0 14px 36px rgba(12,79,77,0.12)",
-        opacity: p,
-        transform: `translateX(${(1 - p) * 160}px)`,
+        opacity: Math.min(1, p),
+        transform: `scale(${0.6 + p * 0.4})`,
       }}
     >
       <div
         style={{
-          width: 120,
-          height: 120,
-          flexShrink: 0,
+          width: 140,
+          height: 140,
           borderRadius: "50%",
           background: colors.teal,
           display: "flex",
@@ -327,41 +524,57 @@ const BenefitRow: React.FC<{
           justifyContent: "center",
         }}
       >
-        <Icon size={66} />
+        <Icon size={78} />
       </div>
-      <div
-        style={{
-          fontSize: 48,
-          fontWeight: 700,
-          color: colors.ink,
-          lineHeight: 1.35,
-        }}
-      >
+      <div style={{ fontSize: 64, fontWeight: 800, color: colors.tealDeep }}>
         {text}
       </div>
     </div>
   );
 };
 
-export const BenefitsScene: React.FC = () => (
-  <AbsoluteFill style={{ fontFamily }}>
-    <CreamBackground />
-    <AbsoluteFill
-      style={{
-        padding: "150px 70px",
-        gap: 30,
-        justifyContent: "center",
-      }}
-    >
-      <Heading>لماذا كريم لافيكا؟</Heading>
-      <GoldRule delay={8} />
-      <div style={{ height: 20 }} />
-      {benefits.map((b, i) => (
-        <BenefitRow key={b.text} text={b.text} Icon={b.Icon} delay={14 + i * 12} />
-      ))}
+export const BenefitsScene: React.FC = () => {
+  const end = useEnter(100);
+  return (
+    <AbsoluteFill style={{ fontFamily }}>
+      <CreamBackground />
+      <AbsoluteFill
+        style={{ padding: "140px 70px", gap: 34, justifyContent: "center" }}
+      >
+        <Heading>6 فوائد في كريم واحد</Heading>
+        <GoldRule delay={8} />
+        <div
+          style={{
+            ...rtl,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 30,
+            marginTop: 20,
+          }}
+        >
+          {benefits.map((b, i) => (
+            <BenefitTile key={b.text} text={b.text} Icon={b.Icon} delay={14 + i * 10} />
+          ))}
+        </div>
+        <div
+          style={{
+            ...rtl,
+            marginTop: 20,
+            textAlign: "center",
+            fontSize: 54,
+            fontWeight: 700,
+            color: colors.ink,
+            opacity: end,
+            transform: `translateY(${(1 - end) * 30}px)`,
+          }}
+        >
+          كلّه بكريم واحد،{" "}
+          <span style={{ color: colors.teal, fontWeight: 800 }}>بفضل مكوّناته</span>
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
-  </AbsoluteFill>
-);
+  );
+};
 
 // ---------------------------------------------------------------- 4 ingredients
 
@@ -469,7 +682,7 @@ export const IngredientsScene: React.FC = () => (
     <AbsoluteFill
       style={{ padding: "150px 80px", gap: 44, justifyContent: "center" }}
     >
-      <Heading>المكونات الفعّالة</Heading>
+      <Heading>سرّ الكريم: مكوّناته</Heading>
       <GoldRule delay={8} />
       <div style={{ height: 10 }} />
       {ingredients.map((ing, i) => (
@@ -539,7 +752,9 @@ export const SkinTypesScene: React.FC = () => {
         }}
       >
         <Heading>
-          مناسب لجميع
+          <span style={{ fontSize: 64, color: colors.gold }}>والأحلى…</span>
+          <br />
+          يناسب جميع
           <br />
           أنواع البشرة
         </Heading>

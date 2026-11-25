@@ -3,11 +3,13 @@ import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { Composition } from "remotion";
 import {
+  BeforeAfterScene,
   BenefitsScene,
   IngredientsScene,
   IntroScene,
   OfferProps,
   OfferScene,
+  ProblemScene,
   ProductScene,
   SkinTypesScene,
   SpecialistScene,
@@ -17,13 +19,15 @@ const FPS = 30;
 const T = 15; // transition length in frames
 
 const scenes = {
-  intro: 90,
-  product: 150,
+  intro: 75,
+  problem: 105,
+  product: 120,
+  beforeAfter: 150,
   benefits: 165,
-  ingredients: 165,
+  ingredients: 150,
   skinTypes: 120,
-  specialist: 135,
-  offer: 165,
+  specialist: 90,
+  offer: 150,
 };
 
 const TOTAL =
@@ -38,8 +42,22 @@ export const LavekaAd: React.FC<OfferProps> = (props) => (
       <IntroScene />
     </TransitionSeries.Sequence>
     <TransitionSeries.Transition presentation={fade()} timing={timing} />
+    <TransitionSeries.Sequence name="Problem" durationInFrames={scenes.problem}>
+      <ProblemScene />
+    </TransitionSeries.Sequence>
+    <TransitionSeries.Transition presentation={fade()} timing={timing} />
     <TransitionSeries.Sequence name="Product" durationInFrames={scenes.product}>
       <ProductScene />
+    </TransitionSeries.Sequence>
+    <TransitionSeries.Transition
+      presentation={slide({ direction: "from-left" })}
+      timing={timing}
+    />
+    <TransitionSeries.Sequence
+      name="Before and after"
+      durationInFrames={scenes.beforeAfter}
+    >
+      <BeforeAfterScene />
     </TransitionSeries.Sequence>
     <TransitionSeries.Transition
       presentation={slide({ direction: "from-left" })}

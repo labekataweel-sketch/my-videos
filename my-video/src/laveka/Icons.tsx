@@ -106,3 +106,17 @@ export const MoonIcon: React.FC<IconProps> = (p) => (
     <path d="M36 30A15 15 0 0 1 18 12a15 15 0 1 0 18 18z" />
   </Svg>
 );
+
+export const LiftIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M14 40V12M14 12l-7 7M14 12l7 7" />
+    <path d="M34 40V12M34 12l-7 7M34 12l7 7" />
+  </Svg>
+);
+
+export const BandageIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <rect x="6" y="17" width="36" height="14" rx="7" transform="rotate(-45 24 24)" />
+    <path d="M21 21h.01M27 21h.01M21 27h.01M27 27h.01" strokeWidth={3.5} />
+  </Svg>
+);
