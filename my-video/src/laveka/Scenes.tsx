@@ -14,12 +14,16 @@ import {
   DotsIcon,
   DropIcon,
   BandageIcon,
+  FaceIcon,
   LeafIcon,
   LiftIcon,
+  MoleculeIcon,
   MoonIcon,
   PoreIcon,
   SparkleIcon,
+  ShieldIcon,
   SunIcon,
+  WavesIcon,
 } from "./Icons";
 import { colors, goldGradient } from "./theme";
 
@@ -51,7 +55,8 @@ const CreamBackground: React.FC = () => {
       {new Array(9).fill(0).map((_, i) => {
         const size = 120 + random(`s${i}`) * 260;
         const x = random(`x${i}`) * 1080;
-        const y = random(`y${i}`) * 1920 - frame * (0.3 + random(`v${i}`) * 0.5);
+        const y =
+          random(`y${i}`) * 1920 - frame * (0.3 + random(`v${i}`) * 0.5);
         return (
           <div
             key={i}
@@ -181,7 +186,8 @@ const Word: React.FC<{ children: React.ReactNode; delay: number }> = ({
 // ---------------------------------------------------------------- problem
 
 // Illustrative only: the same photo shown dull ("before") and as-is ("after").
-const BEFORE_FILTER = "saturate(0.45) brightness(0.86) contrast(0.88) sepia(0.28)";
+const BEFORE_FILTER =
+  "saturate(0.45) brightness(0.86) contrast(0.88) sepia(0.28)";
 
 const FacePhoto: React.FC<{ filter?: string; zoom?: number }> = ({
   filter,
@@ -266,7 +272,15 @@ export const ProblemScene: React.FC = () => {
         >
           بشرتك متعبة؟
         </div>
-        <div style={{ display: "flex", gap: 18, flexWrap: "wrap", justifyContent: "center", padding: "0 50px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 18,
+            flexWrap: "wrap",
+            justifyContent: "center",
+            padding: "0 50px",
+          }}
+        >
           {problems.map((t, i) => (
             <Chip key={t} delay={24 + i * 8}>
               {t}
@@ -361,7 +375,11 @@ export const BeforeAfterScene: React.FC = () => {
             }}
           />
           <Tag side="right" text="قبل" opacity={1 - after} />
-          <Tag side="left" text="بعد" opacity={interpolate(reveal, [40, 70], [0, 1], clamp)} />
+          <Tag
+            side="left"
+            text="بعد"
+            opacity={interpolate(reveal, [40, 70], [0, 1], clamp)}
+          />
           <Disclaimer />
         </div>
         <div
@@ -379,11 +397,11 @@ export const BeforeAfterScene: React.FC = () => {
   );
 };
 
-const Tag: React.FC<{ side: "left" | "right"; text: string; opacity: number }> = ({
-  side,
-  text,
-  opacity,
-}) => (
+const Tag: React.FC<{
+  side: "left" | "right";
+  text: string;
+  opacity: number;
+}> = ({ side, text, opacity }) => (
   <div
     style={{
       position: "absolute",
@@ -415,9 +433,7 @@ export const ProductScene: React.FC = () => {
   return (
     <AbsoluteFill style={{ fontFamily }}>
       <CreamBackground />
-      <AbsoluteFill
-        style={{ alignItems: "center", paddingTop: 170, gap: 28 }}
-      >
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 170, gap: 28 }}>
         <Heading>كريم ترطيب عميق</Heading>
         <div
           style={{
@@ -553,7 +569,12 @@ export const BenefitsScene: React.FC = () => {
           }}
         >
           {benefits.map((b, i) => (
-            <BenefitTile key={b.text} text={b.text} Icon={b.Icon} delay={14 + i * 10} />
+            <BenefitTile
+              key={b.text}
+              text={b.text}
+              Icon={b.Icon}
+              delay={14 + i * 10}
+            />
           ))}
         </div>
         <div
@@ -569,12 +590,100 @@ export const BenefitsScene: React.FC = () => {
           }}
         >
           كلّه بكريم واحد،{" "}
-          <span style={{ color: colors.teal, fontWeight: 800 }}>بفضل مكوّناته</span>
+          <span style={{ color: colors.teal, fontWeight: 800 }}>
+            بفضل مكوّناته
+          </span>
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
   );
 };
+
+// ---------------------------------------------------------------- 3b detailed benefits
+
+const detailedBenefits: { text: string; Icon: React.FC<{ size?: number }> }[] =
+  [
+    { text: "ترطيب عميق يدوم طويلاً", Icon: DropIcon },
+    { text: "يهدئ الاحمرار والتهيج", Icon: SparkleIcon },
+    { text: "يعزز حاجز البشرة ويحميها", Icon: ShieldIcon },
+    { text: "يوحد لون البشرة ويمنحها إشراقاً طبيعياً", Icon: FaceIcon },
+    { text: "يقلل الخطوط الدقيقة وعلامات التعب", Icon: WavesIcon },
+    { text: "يحفز تجديد الخلايا ويعزز إنتاج الكولاجين", Icon: MoleculeIcon },
+  ];
+
+const DetailedBenefitRow: React.FC<{
+  text: string;
+  Icon: React.FC<{ size?: number }>;
+  delay: number;
+}> = ({ text, Icon, delay }) => {
+  const p = useEnter(delay);
+  return (
+    <div
+      style={{
+        ...rtl,
+        display: "flex",
+        alignItems: "center",
+        gap: 34,
+        background: "rgba(255,255,255,0.92)",
+        borderRadius: 120,
+        padding: "22px 26px",
+        boxShadow: "0 14px 36px rgba(12,79,77,0.12)",
+        opacity: p,
+        transform: `translateX(${(1 - p) * 160}px)`,
+      }}
+    >
+      <div
+        style={{
+          width: 120,
+          height: 120,
+          flexShrink: 0,
+          borderRadius: "50%",
+          background: colors.teal,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Icon size={66} />
+      </div>
+      <div
+        style={{
+          fontSize: 48,
+          fontWeight: 700,
+          color: colors.ink,
+          lineHeight: 1.35,
+        }}
+      >
+        {text}
+      </div>
+    </div>
+  );
+};
+
+export const DetailedBenefitsScene: React.FC = () => (
+  <AbsoluteFill style={{ fontFamily }}>
+    <CreamBackground />
+    <AbsoluteFill
+      style={{
+        padding: "150px 70px",
+        gap: 30,
+        justifyContent: "center",
+      }}
+    >
+      <Heading>فوائد الكريم لبشرتك</Heading>
+      <GoldRule delay={8} />
+      <div style={{ height: 20 }} />
+      {detailedBenefits.map((b, i) => (
+        <DetailedBenefitRow
+          key={b.text}
+          text={b.text}
+          Icon={b.Icon}
+          delay={14 + i * 12}
+        />
+      ))}
+    </AbsoluteFill>
+  </AbsoluteFill>
+);
 
 // ---------------------------------------------------------------- 4 ingredients
 
@@ -616,14 +725,9 @@ const ingredients = [
   },
 ];
 
-const IngredientRow: React.FC<(typeof ingredients)[number] & { delay: number }> = ({
-  name,
-  desc,
-  from,
-  to,
-  mark,
-  delay,
-}) => {
+const IngredientRow: React.FC<
+  (typeof ingredients)[number] & { delay: number }
+> = ({ name, desc, from, to, mark, delay }) => {
   const p = useEnter(delay, 14);
   const fade = useEnter(delay);
   return (
@@ -694,7 +798,10 @@ export const IngredientsScene: React.FC = () => (
 
 // ---------------------------------------------------------------- 5 skin types + usage
 
-const skinTypes: { label: string; Icon: React.FC<{ size?: number; color?: string }> }[] = [
+const skinTypes: {
+  label: string;
+  Icon: React.FC<{ size?: number; color?: string }>;
+}[] = [
   { label: "جافة", Icon: DropIcon },
   { label: "دهنية", Icon: PoreIcon },
   { label: "مختلطة", Icon: DotsIcon },
@@ -869,30 +976,21 @@ export const SpecialistScene: React.FC = () => {
   );
 };
 
-// ---------------------------------------------------------------- 7 offer + CTA
+// ---------------------------------------------------------------- 7 CTA
 
 export type OfferProps = {
-  price: string;
-  oldPrice: string;
   cta: string;
   contact: string;
 };
 
-export const OfferScene: React.FC<OfferProps> = ({
-  price,
-  oldPrice,
-  cta,
-  contact,
-}) => {
+export const OfferScene: React.FC<OfferProps> = ({ cta, contact }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
   const photo = useEnter(0);
-  const old = useEnter(14);
-  const strike = interpolate(frame, [26, 38], [0, 100], clamp);
-  const priceIn = spring({ frame: frame - 36, fps, config: { damping: 10, mass: 0.8 } });
-  const button = useEnter(58);
-  const pulse = 1 + Math.max(0, Math.sin((frame - 70) / 7)) * 0.04 * (frame > 70 ? 1 : 0);
-  const tagline = useEnter(75);
+  const title = useEnter(12);
+  const button = useEnter(34);
+  const pulse =
+    frame > 50 ? 1 + Math.max(0, Math.sin((frame - 50) / 7)) * 0.04 : 1;
+  const logo = useEnter(48);
   return (
     <AbsoluteFill style={{ fontFamily }}>
       <CreamBackground />
@@ -902,10 +1000,11 @@ export const OfferScene: React.FC<OfferProps> = ({
           top: 0,
           left: 0,
           right: 0,
-          height: 820,
+          height: 900,
           overflow: "hidden",
           opacity: photo,
-          WebkitMaskImage: "linear-gradient(180deg, black 70%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(180deg, black 70%, transparent 100%)",
           maskImage: "linear-gradient(180deg, black 70%, transparent 100%)",
         }}
       >
@@ -924,70 +1023,34 @@ export const OfferScene: React.FC<OfferProps> = ({
         style={{
           ...rtl,
           alignItems: "center",
-          paddingTop: 800,
-          gap: 18,
+          paddingTop: 900,
+          gap: 30,
           textAlign: "center",
         }}
       >
         <div
           style={{
-            fontSize: 58,
+            fontSize: 80,
             fontWeight: 800,
+            lineHeight: 1.3,
             color: colors.tealDeep,
-            opacity: old,
+            opacity: title,
+            transform: `translateY(${(1 - title) * 30}px)`,
           }}
         >
-          عرض خاص لفترة محدودة
-        </div>
-        <div
-          dir="ltr"
-          style={{
-            position: "relative",
-            fontSize: 70,
-            fontWeight: 700,
-            color: colors.muted,
-            opacity: old,
-          }}
-        >
-          ₪{oldPrice}
-          <div
-            style={{
-              position: "absolute",
-              left: -10,
-              top: "52%",
-              height: 7,
-              width: `calc(${strike}% + 20px)`,
-              background: "#c0392b",
-              borderRadius: 4,
-              transform: "rotate(-6deg)",
-            }}
-          />
-        </div>
-        <div
-          dir="ltr"
-          style={{
-            fontSize: 190,
-            fontWeight: 900,
-            lineHeight: 1.05,
-            color: colors.white,
-            background: colors.tealDeep,
-            borderRadius: 60,
-            padding: "6px 70px 26px",
-            boxShadow: "0 24px 60px rgba(12,79,77,0.35)",
-            transform: `scale(${priceIn})`,
-          }}
-        >
-          ₪{price}
+          بشرة مرطبة، أكثر شباباً
+          <br />
+          ومشرقة كل يوم
         </div>
         <div
           style={{
-            marginTop: 36,
-            fontSize: 72,
+            marginTop: 20,
+            fontSize: 76,
             fontWeight: 800,
             color: colors.tealDeep,
             background: goldGradient,
             borderRadius: 80,
-            padding: "14px 110px 26px",
+            padding: "14px 120px 28px",
             opacity: button,
             transform: `translateY(${(1 - button) * 50}px) scale(${pulse})`,
             boxShadow: "0 16px 40px rgba(167,122,38,0.35)",
@@ -999,7 +1062,7 @@ export const OfferScene: React.FC<OfferProps> = ({
           <div
             dir="ltr"
             style={{
-              fontSize: 48,
+              fontSize: 50,
               fontWeight: 700,
               color: colors.ink,
               opacity: button,
@@ -1008,27 +1071,16 @@ export const OfferScene: React.FC<OfferProps> = ({
             {contact}
           </div>
         ) : null}
-        <div
-          style={{
-            marginTop: 30,
-            fontSize: 44,
-            fontWeight: 600,
-            color: colors.ink,
-            opacity: tagline,
-          }}
-        >
-          بشرة مرطبة، أكثر شباباً وإشراقاً
-        </div>
       </AbsoluteFill>
       <AbsoluteFill
         style={{
           justifyContent: "flex-end",
           alignItems: "center",
-          paddingBottom: 60,
-          opacity: tagline,
+          paddingBottom: 80,
+          opacity: logo,
         }}
       >
-        <Logo width={300} />
+        <Logo width={360} />
       </AbsoluteFill>
     </AbsoluteFill>
   );

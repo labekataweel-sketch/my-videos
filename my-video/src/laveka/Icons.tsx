@@ -116,7 +116,14 @@ export const LiftIcon: React.FC<IconProps> = (p) => (
 
 export const BandageIcon: React.FC<IconProps> = (p) => (
   <Svg {...p}>
-    <rect x="6" y="17" width="36" height="14" rx="7" transform="rotate(-45 24 24)" />
+    <rect
+      x="6"
+      y="17"
+      width="36"
+      height="14"
+      rx="7"
+      transform="rotate(-45 24 24)"
+    />
     <path d="M21 21h.01M27 21h.01M21 27h.01M27 27h.01" strokeWidth={3.5} />
   </Svg>
 );
