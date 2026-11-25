@@ -186,22 +186,18 @@ const Word: React.FC<{ children: React.ReactNode; delay: number }> = ({
 
 // ---------------------------------------------------------------- problem
 
-// Illustrative only: the same photo shown dull ("before") and as-is ("after").
-const BEFORE_FILTER =
-  "saturate(0.45) brightness(0.86) contrast(0.88) sepia(0.28)";
-
-const FacePhoto: React.FC<{ filter?: string; zoom?: number }> = ({
-  filter,
+// Illustrative before/after photos supplied by the clinic (labelled on screen).
+const FacePhoto: React.FC<{ which: "before" | "after"; zoom?: number }> = ({
+  which,
   zoom = 1,
 }) => (
   <Img
-    src={staticFile("laveka/face-wide.jpg")}
+    src={staticFile(`laveka/${which}.jpg`)}
     style={{
       width: "100%",
       height: "100%",
       objectFit: "cover",
-      objectPosition: "45% 50%",
-      filter,
+      objectPosition: "42% 50%",
       transform: `scale(${zoom})`,
     }}
   />
@@ -231,7 +227,7 @@ export const ProblemScene: React.FC = () => {
   const { durationInFrames } = useVideoConfig();
   const zoom = interpolate(frame, [0, durationInFrames], [1.0, 1.08]);
   const q = useEnter(10);
-  const problems = ["جفاف", "بهتان", "احمرار", "خطوط دقيقة"];
+  const problems = ["جفاف", "احمرار", "تصبغات", "بهتان"];
   return (
     <AbsoluteFill style={{ fontFamily, backgroundColor: "#2b2b2b" }}>
       <div
@@ -242,7 +238,7 @@ export const ProblemScene: React.FC = () => {
           overflow: "hidden",
         }}
       >
-        <FacePhoto filter={BEFORE_FILTER} zoom={zoom} />
+        <FacePhoto which="before" zoom={zoom} />
         <Disclaimer />
       </div>
       <div
@@ -359,10 +355,10 @@ export const BeforeAfterScene: React.FC = () => {
           }}
         >
           <AbsoluteFill>
-            <FacePhoto />
+            <FacePhoto which="after" />
           </AbsoluteFill>
           <AbsoluteFill style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}>
-            <FacePhoto filter={BEFORE_FILTER} />
+            <FacePhoto which="before" />
           </AbsoluteFill>
           <div
             style={{
