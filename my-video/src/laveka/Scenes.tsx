@@ -123,7 +123,7 @@ const Logo: React.FC<{ width: number; style?: React.CSSProperties }> = ({
   style,
 }) => (
   <Img
-    src={staticFile("laveka/logo.png")}
+    src={staticFile("laveka/logo-official.png")}
     style={{ width, height: "auto", ...style }}
   />
 );
@@ -134,7 +134,7 @@ export const IntroScene: React.FC = () => {
   const frame = useCurrentFrame();
   const logo = useEnter(5);
   const words = ["ترطيب", "تجديد", "حماية"];
-  const shine = interpolate(frame, [20, 70], [-120, 220], clamp);
+  const shine = interpolate(frame, [20, 70], [-20, 120], clamp);
   return (
     <AbsoluteFill
       style={{
@@ -148,25 +148,22 @@ export const IntroScene: React.FC = () => {
       <div
         style={{
           position: "relative",
-          padding: "50px 60px",
-          borderRadius: 40,
-          background: "rgba(247,244,238,0.96)",
           overflow: "hidden",
           opacity: logo,
           transform: `scale(${0.85 + logo * 0.15})`,
-          boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
+          filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.35))",
         }}
       >
-        <Logo width={760} />
+        <Logo width={820} />
         <div
           style={{
             position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: `${shine}%`,
-            width: "30%",
-            background:
-              "linear-gradient(100deg, transparent, rgba(255,255,255,0.7), transparent)",
+            inset: 0,
+            WebkitMaskImage: `url(${staticFile("laveka/logo-official.png")})`,
+            maskImage: `url(${staticFile("laveka/logo-official.png")})`,
+            WebkitMaskSize: "100% 100%",
+            maskSize: "100% 100%",
+            background: `linear-gradient(100deg, transparent ${shine - 15}%, rgba(255,250,225,0.85) ${shine}%, transparent ${shine + 15}%)`,
           }}
         />
       </div>
@@ -812,11 +809,11 @@ export const OfferScene: React.FC<OfferProps> = ({
         style={{
           justifyContent: "flex-end",
           alignItems: "center",
-          paddingBottom: 70,
+          paddingBottom: 60,
           opacity: tagline,
         }}
       >
-        <Logo width={420} />
+        <Logo width={300} />
       </AbsoluteFill>
     </AbsoluteFill>
   );
