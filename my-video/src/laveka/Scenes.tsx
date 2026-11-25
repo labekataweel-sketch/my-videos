@@ -19,6 +19,7 @@ import {
   LiftIcon,
   MoleculeIcon,
   MoonIcon,
+  PhoneIcon,
   PoreIcon,
   SparkleIcon,
   ShieldIcon,
@@ -1060,15 +1061,20 @@ export const OfferScene: React.FC<OfferProps> = ({ cta, contact }) => {
         </div>
         {contact ? (
           <div
-            dir="ltr"
             style={{
-              fontSize: 50,
-              fontWeight: 700,
-              color: colors.ink,
+              display: "flex",
+              alignItems: "center",
+              gap: 18,
+              marginTop: 6,
+              fontSize: 64,
+              fontWeight: 800,
+              color: colors.tealDeep,
               opacity: button,
+              fontVariantNumeric: "tabular-nums",
             }}
           >
-            {contact}
+            <PhoneIcon size={60} color={colors.teal} />
+            <span dir="ltr">{contact}</span>
           </div>
         ) : null}
       </AbsoluteFill>

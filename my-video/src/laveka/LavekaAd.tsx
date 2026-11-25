@@ -30,7 +30,7 @@ const scenes = {
   ingredients: 150,
   skinTypes: 120,
   specialist: 90,
-  offer: 120,
+  offer: 150,
 };
 
 const TOTAL =
@@ -143,7 +143,7 @@ export const LavekaAdComposition = () => (
     height={1920}
     defaultProps={{
       cta: "اطلبي الآن",
-      contact: "",
+      contact: "0586810136",
     }}
   />
 );

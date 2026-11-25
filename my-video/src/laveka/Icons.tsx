@@ -127,3 +127,9 @@ export const BandageIcon: React.FC<IconProps> = (p) => (
     <path d="M21 21h.01M27 21h.01M21 27h.01M27 27h.01" strokeWidth={3.5} />
   </Svg>
 );
+
+export const PhoneIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M15 6h-5a3 3 0 0 0-3 3c0 18 14 32 32 32a3 3 0 0 0 3-3v-5l-9-4-4 4c-5-2-10-7-12-12l4-4z" />
+  </Svg>
+);
