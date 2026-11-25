@@ -227,7 +227,7 @@ export const ProblemScene: React.FC = () => {
   const { durationInFrames } = useVideoConfig();
   const zoom = interpolate(frame, [0, durationInFrames], [1.0, 1.08]);
   const q = useEnter(10);
-  const problems = ["جفاف", "احمرار", "تصبغات", "بهتان"];
+  const problems = ["جفاف", "احمرار", "تهيّج", "بهتان"];
   return (
     <AbsoluteFill style={{ fontFamily, backgroundColor: "#2b2b2b" }}>
       <div
@@ -497,7 +497,6 @@ export const ProductScene: React.FC = () => {
 
 const benefits: { text: string; Icon: React.FC<{ size?: number }> }[] = [
   { text: "ترطيب", Icon: DropIcon },
-  { text: "تفتيح", Icon: SunIcon },
   { text: "ترميم", Icon: BandageIcon },
   { text: "تهدئة", Icon: LeafIcon },
   { text: "نضارة", Icon: SparkleIcon },
@@ -508,11 +507,13 @@ const BenefitTile: React.FC<{
   text: string;
   Icon: React.FC<{ size?: number }>;
   delay: number;
-}> = ({ text, Icon, delay }) => {
+  wide?: boolean;
+}> = ({ text, Icon, delay, wide }) => {
   const p = useEnter(delay, 13);
   return (
     <div
       style={{
+        gridColumn: wide ? "1 / -1" : undefined,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -554,7 +555,7 @@ export const BenefitsScene: React.FC = () => {
       <AbsoluteFill
         style={{ padding: "140px 70px", gap: 34, justifyContent: "center" }}
       >
-        <Heading>6 فوائد في كريم واحد</Heading>
+        <Heading>5 فوائد في كريم واحد</Heading>
         <GoldRule delay={8} />
         <div
           style={{
@@ -571,6 +572,7 @@ export const BenefitsScene: React.FC = () => {
               text={b.text}
               Icon={b.Icon}
               delay={14 + i * 10}
+              wide={i === benefits.length - 1 && benefits.length % 2 === 1}
             />
           ))}
         </div>
@@ -701,7 +703,7 @@ const ingredients = [
   },
   {
     name: "Brightening Extract",
-    desc: "يفتّح البشرة ويوحد لونها",
+    desc: "يوحّد لون البشرة ويمنحها إشراقاً",
     from: "#d7f2c8",
     to: "#4f9a3a",
     mark: "",
@@ -715,7 +717,7 @@ const ingredients = [
   },
   {
     name: "Niacinamide",
-    desc: "ينظم الدهون ويقلل التصبغات",
+    desc: "ينظم الدهون ويعزز نضارة البشرة",
     from: "#ffe7b0",
     to: "#e08a12",
     mark: "B3",
