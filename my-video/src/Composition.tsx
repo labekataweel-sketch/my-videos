@@ -1,32 +1,13 @@
-import { loadFont } from "@remotion/fonts";
 import {
   AbsoluteFill,
   CalculateMetadataFunction,
   Composition,
   interpolate,
   spring,
-  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-
-// Cairo (SIL Open Font License) is bundled in public/fonts so renders
-// don't depend on reaching Google Fonts. Both files are variable fonts
-// covering weights 200–1000.
-const fontFamily = "Cairo";
-loadFont({
-  family: fontFamily,
-  url: staticFile("fonts/Cairo-arabic.woff2"),
-  weight: "200 1000",
-  unicodeRange:
-    "U+0600-06FF, U+0750-077F, U+0870-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFC",
-});
-loadFont({
-  family: fontFamily,
-  url: staticFile("fonts/Cairo-latin.woff2"),
-  weight: "200 1000",
-  unicodeRange: "U+0000-00FF, U+2000-206F, U+FEFF, U+FFFD",
-});
+import { fontFamily } from "./fonts";
 
 type Props = {
   title: string;
